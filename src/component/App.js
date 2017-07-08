@@ -15,8 +15,7 @@ class App extends React.Component {
   }
 
   handleClick = (buttonName) => {
-    // Code goes here
-    // What should we do when a user clicks a button?
+    this.setState(calculate(this.state, buttonName));
   }
 
   render() {

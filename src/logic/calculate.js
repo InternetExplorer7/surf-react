@@ -12,16 +12,68 @@ import isNumber from './isNumber';
  */
 export default function calculate(obj, buttonName) {
 
-  // Step 1: if AC -> reset
-
+  // Step 1: if AC -> reset 
+  if (buttonName === "AC") {
+    return {
+      total: null,
+      next: null,
+      operation: null
+    }
+  }
   // Step 2:
   // If button is number 
   // if the button is equal to zero and the next number to be operated on is equal to zero,
   // then return an empty object.
+  if (isNumber(buttonName)) {
+    if (buttonName === '0' && obj.next === '0') {
+      return {}
+    }
+
+    // If there is an operation, update next.
+    if (obj.operation) {
+      if (obj.next) {
+        return { next: obj.next + buttonName}
+      }
+      return { next: buttonName }
+    }
+
+    // if there is no operation, update next and clear the value.
+    if (obj.next) {
+      return {
+        next: obj.next + buttonName,
+        total: null
+      }
+    }
+
+    return {
+      next: buttonName,
+      total: null
+    };
+  }
 
   // If there exists an operation, and if there exists a next number to be operated on,
   // then return an object with next where the new next is the sum of our previous next number to be operated on and the number entered.
   // Otherwise, return next to be the button name. 
+  if (buttonName === '.') {
+    if (obj.next) {
+      if (obj.next.includes('.')) {
+        return {}
+      }
+      return { next: obj.next + '.'};
+    }
+
+    if (obj.operation) {
+      return { next: '0.'}
+    }
+
+    if (obj.total) {
+      if (obj.total.includes('.')) {
+        return {};
+      }
+      return { total: obj.total + '.'};
+    }
+    return { total: '0.' };
+  }
 
   // If there exists a next number but no operation, then return an object with a null total (reset) and update  our new next with prev next + button name.
 
