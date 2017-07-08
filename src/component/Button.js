@@ -3,7 +3,7 @@ import './Button.css';
 
 class Button extends React.Component {
   handleClick = () => {
-    // Implement, a button is clicked...
+    this.props.clickHandler(this.props.name);
   }
 
   render() {

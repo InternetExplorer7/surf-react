@@ -93,11 +93,34 @@ export default function calculate(obj, buttonName) {
   }
 
   // Step 5: If the button name is "+/-", and if there exist a next operation, simply negate the current value of next. (hint: make sure to retain accuracy!)
+  if (buttonName === "+/-") {
+    if (obj.next) {
+      return { next: (-1 * parseFloat(obj.next)).toString() };
+    }
+    if (obj.total) {
+      return { total: (-1 * parseFloat(obj.total)).toString() };
+    }
+    return {};
+  }
 
   // Step 6: the user entered an operation (+, -, /, *). Operate and set the next operation!
+  if (obj.operation) {
+    return {
+      total: operate(obj.total, obj.next, obj.operation),
+      next: null,
+      operation: buttonName
+    };
+  }
 
   // The user hasn't typed a number yet, just save the operation
+  if (!obj.next) {
+    return { operation: buttonName }
+  }
 
   // save the operation and shift 'next' into 'total'
-  
+  return {
+    total: obj.next,
+    next: null,
+    operation: buttonName
+  };
 }
